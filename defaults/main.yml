@@ -1,2 +1,9 @@
 ---
-# defaults file for zammad
+zammad_package_state: present
+
+zammad_apt_priority: 100
+
+zammad_service_state: started
+zammad_service_enabled: true
+
+zammad_nginx_disable_default_web_server: true

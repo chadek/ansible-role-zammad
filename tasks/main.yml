@@ -1,65 +1,31 @@
 ---
-- name: Zammad | Install dependencies
-  apt:
-    name: "{{ packages }}"
-    state: present
-    update_cache: yes
-  vars:
-    packages:
-    - apt-transport-https
-    - gnupg
 
-- name: Zammad | Ensure Zammad apt key is present
-  apt_key:
-    url: https://dl.packager.io/srv/zammad/zammad/key
-    state: present
+- include_tasks: setup-debian.yml
+  when: ansible_os_family == 'Debian'
 
-# - name: Zammad | Ensure elk apt key is present
-#   apt_key:
-#     url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
-#     state: present
+- name: Zammad | Install Zammad
+  package:
+    name: zammad
+    state: "{{ zammad_package_state }}"
 
-- name: Zammad | Ensure Zammad apt repository is present
-  apt_repository:
-    repo: deb [arch=amd64] https://dl.packager.io/srv/deb/zammad/zammad/stable/debian 11 main
-    update_cache: yes
-    state: present
-
-# - name: Zammad | Ensure elk apt repository is present
-#   apt_repository:
-#     repo: deb [arch=amd64] https://artifacts.elastic.co/packages/7.x/apt stable main
-#     update_cache: yes
-#     state: present
-
-- name: Zammad | Lower Priority from Zammad repo (do not trust that repo for anything different)
-  template:
-    src: ./files/zammad_policy_100
-    dest: /etc/apt/preferences.d/zammad_policy_100
-    owner: root
-    group: root
-    mode: 0644
-
-# - name: Zammad | Lower Priority from ELK repo (do not trust that repo for anything different)
+# - name: Zammad | Lower Priority from elasticsearch repo (do not trust that repo for anything different)
 #   template:
-#     src: ./files/elk_policy_100
-#     dest: /etc/apt/preferences.d/elk_policy_100
+#     src: ./files/elasticsearch_policy_100
+#     dest: /etc/apt/preferences.d/elasticsearch_policy_100
 #     owner: root
 #     group: root
 #     mode: 0644
 
-- name: Zammad | Install Zammad
-  apt:
-    name: "{{ packages }}"
-    state: present
-    update_cache: yes
-  vars:
-    packages:
-    - zammad
-
 - name: Zammad | Ensure Zammad services are running and set to start on boot.
   systemd:
-    name: "{{ item }}"
-    state: started
-    enabled: yes
-  with_items:
-    - zammad
+    name: zammad
+    state: "{{ zammad_service_state }}"
+    enabled: "{{ zammad_service_enabled }}"
+
+
+- name: Zammad | Disable default nginx server page to make zammad default web page
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: "absent"
+  when: "zammad_nginx_disable_default_web_server == true"
+  notify: reload nginx
