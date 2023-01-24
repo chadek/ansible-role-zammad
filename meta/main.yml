@@ -3,6 +3,7 @@ dependencies:
   - role: geerlingguy.elasticsearch
 
 galaxy_info:
+  role_name: zammad
   author: chadek
   description: ansible role to install zammad for linux
   company: your company (optional)
@@ -11,14 +12,14 @@ galaxy_info:
   platforms:
   - name: Debian
     versions:
-    - 9
-    - 10
-    - 11
+    - strech
+    - buster
+    - bullseye
   - name: Ubuntu
     versions:
-    - 16.04
-    - 18.04
-    - 20.04
+    - xenial
+    - bionic
+    - focal
 
   galaxy_tags:
     - zammad
