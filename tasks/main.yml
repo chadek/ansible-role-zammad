@@ -8,24 +8,24 @@
     name: zammad
     state: "{{ zammad_package_state }}"
 
-# - name: Zammad | Lower Priority from elasticsearch repo (do not trust that repo for anything different)
-#   template:
-#     src: ./files/elasticsearch_policy_100
-#     dest: /etc/apt/preferences.d/elasticsearch_policy_100
-#     owner: root
-#     group: root
-#     mode: 0644
-
 - name: Zammad | Ensure Zammad services are running and set to start on boot.
   systemd:
     name: zammad
     state: "{{ zammad_service_state }}"
     enabled: "{{ zammad_service_enabled }}"
 
-
-- name: Zammad | Disable default nginx server page to make zammad default web page
+- name: Zammad | Disable default nginx configuration for zammad
   file:
-    path: "/etc/nginx/sites-enabled/default"
+    path: "/etc/nginx/sites-enabled/zammad.conf"
     state: "absent"
   when: "zammad_nginx_disable_default_web_server == true"
   notify: reload nginx
+
+- name: Zammad | Include redis role
+  include_role:
+    name: geerlingguy.redis
+  when: "zammad_add_redis == true"
+
+- name: Zammad | Set redis environment var
+  shell: "zammad config:set REDIS_URL=redis://127.0.0.1:6379"
+  when: "zammad_add_redis == true"

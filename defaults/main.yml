@@ -7,3 +7,5 @@ zammad_service_state: started
 zammad_service_enabled: true
 
 zammad_nginx_disable_default_web_server: true
+
+zammad_add_redis: false
