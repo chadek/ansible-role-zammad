@@ -1,6 +1,6 @@
 ---
-dependencies:  
-  - role: geerlingguy.elasticsearch
+dependencies:
+  - role: chadek.elasticsearch
 
 galaxy_info:
   role_name: zammad
@@ -8,7 +8,7 @@ galaxy_info:
   description: ansible role to install zammad for linux
   company: your company (optional)
   license: license GPL-3.0-only
-  min_ansible_version: 2.1  
+  min_ansible_version: 2.1
   platforms:
   - name: Debian
     versions:
