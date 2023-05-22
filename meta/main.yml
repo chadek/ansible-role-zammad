@@ -1,6 +1,7 @@
 ---
 dependencies:
   - role: chadek.elasticsearch
+  - role: geerlingguy.postgresql
 
 galaxy_info:
   role_name: zammad
