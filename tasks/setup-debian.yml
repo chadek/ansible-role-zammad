@@ -1,6 +1,6 @@
 ---
 - name: Zammad | Install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
     update_cache: yes
@@ -9,19 +9,26 @@
     - apt-transport-https
     - gnupg
 
-- name: Zammad | Ensure Zammad apt key is present
-  apt_key:
+- name: Zammad | Ensure keyring dir exist
+  ansible.builtin.file:
+    state: directory
+    dest: /usr/share/keyrings/
+
+- name: Zammad | Ensure zammad apt key is present
+  ansible.builtin.get_url:
     url: https://dl.packager.io/srv/zammad/zammad/key
-    state: present
+    dest: /usr/share/keyrings/pkgr-zammad.asc
+    mode: '0644'
+    force: true
 
 - name: Zammad | Ensure Zammad apt repository is present
-  apt_repository:
-    repo: "deb [arch=amd64] https://dl.packager.io/srv/deb/zammad/zammad/stable/{{ ansible_distribution | lower }} {{ ansible_distribution_major_version }} main"
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/usr/share/keyrings/pkgr-zammad.asc] https://dl.packager.io/srv/deb/zammad/zammad/stable/{{ ansible_distribution | lower }} {{ ansible_distribution_major_version }} main"
     update_cache: yes
     state: present
 
 - name: Zammad | Lower Priority from Zammad repo (do not trust that repo for anything different)
-  template:
+  ansible.builtin.template:
     src: zammad_policy_100.j2
     dest: /etc/apt/preferences.d/zammad_policy_100
     owner: root
