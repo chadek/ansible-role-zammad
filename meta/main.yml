@@ -9,19 +9,19 @@ galaxy_info:
   description: ansible role to install zammad for linux
   company: your company (optional)
   license: license GPL-3.0-only
-  min_ansible_version: 2.1
+  min_ansible_version: "2.1"
   platforms:
-  - name: Debian
-    versions:
-    - stretch
-    - buster
-    - bullseye
-    - bookworm
-  - name: Ubuntu
-    versions:
-    - xenial
-    - bionic
-    - focal
+    - name: Debian
+      versions:
+        - stretch
+        - buster
+        - bullseye
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - focal
 
   galaxy_tags:
     - zammad
