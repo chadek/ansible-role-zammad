@@ -11,5 +11,5 @@
 
   roles:
     - role: geerlingguy.postgresql
-    - role: geerlingguy.elasticsearch  
+    - role: geerlingguy.elasticsearch
     - role: chadek.zammad
