@@ -10,6 +10,4 @@
       changed_when: false
 
   roles:
-    - role: geerlingguy.postgresql
-    - role: geerlingguy.elasticsearch
     - role: chadek.zammad
