@@ -3,7 +3,7 @@
   ansible.builtin.apt:
     name: "{{ packages }}"
     state: present
-    update_cache: yes
+    update_cache: true
   vars:
     packages:
       - apt-transport-https
@@ -23,11 +23,15 @@
 
 - name: Zammad | Ensure Zammad apt repository is present
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/pkgr-zammad.asc] https://dl.packager.io/srv/deb/zammad/zammad/stable/{{ ansible_distribution | lower }} {{ ansible_distribution_major_version }} main"
-    update_cache: yes
+    repo: | 
+      "deb [signed-by=/usr/share/keyrings/pkgr-zammad.asc] 
+      https://dl.packager.io/srv/deb/zammad/zammad/stable/
+      {{ ansible_distribution | lower }} 
+      {{ ansible_distribution_major_version }} main"
+    update_cache: true
     state: present
 
-- name: Zammad | Lower Priority from Zammad repo (do not trust that repo for anything different)
+- name: Zammad | Lower Priority of Zammad repo (trust repo only for zammad)
   ansible.builtin.template:
     src: zammad_policy_100.j2
     dest: /etc/apt/preferences.d/zammad_policy_100
