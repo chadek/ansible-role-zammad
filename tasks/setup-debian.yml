@@ -6,8 +6,8 @@
     update_cache: yes
   vars:
     packages:
-    - apt-transport-https
-    - gnupg
+      - apt-transport-https
+      - gnupg
 
 - name: Zammad | Ensure keyring dir exist
   ansible.builtin.file:
@@ -18,7 +18,7 @@
   ansible.builtin.get_url:
     url: https://dl.packager.io/srv/zammad/zammad/key
     dest: /usr/share/keyrings/pkgr-zammad.asc
-    mode: '0644'
+    mode: "0644"
     force: true
 
 - name: Zammad | Ensure Zammad apt repository is present
