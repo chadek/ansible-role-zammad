@@ -18,7 +18,7 @@
   ansible.builtin.get_url:
     url: https://dl.packager.io/srv/zammad/zammad/key
     dest: /usr/share/keyrings/pkgr-zammad.asc
-    mode: "0644"
+    mode: '0644'
     force: true
 
 - name: Zammad | Ensure Zammad apt repository is present
@@ -33,4 +33,4 @@
     dest: /etc/apt/preferences.d/zammad_policy_100
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
