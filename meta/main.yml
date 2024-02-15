@@ -7,7 +7,7 @@ galaxy_info:
   role_name: zammad
   author: chadek
   description: ansible role to install zammad for linux
-  company: your company (optional)
+  company: Green-house
   license: license GPL-3.0-only
   min_ansible_version: "2.1"
   platforms:
