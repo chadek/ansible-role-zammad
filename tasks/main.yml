@@ -20,7 +20,7 @@
     path: "/etc/nginx/sites-enabled/zammad.conf"
     state: "absent"
   when: zammad_nginx_disable_default_web_server
-  notify: reload nginx
+  notify: Reload nginx
 
 - name: Zammad | Include redis role
   ansible.builtin.include_role:
