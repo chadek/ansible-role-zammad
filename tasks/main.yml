@@ -1,30 +1,34 @@
 ---
-- include_tasks: setup-debian.yml
+- name: Zammad | Include "setup-debian.yml"
+  ansible.builtin.include_tasks:
+    name: "setup-debian.yml"
   when: ansible_os_family == 'Debian'
 
 - name: Zammad | Install Zammad
-  package:
+  ansible.builtin.package:
     name: zammad
     state: "{{ zammad_package_state }}"
 
 - name: Zammad | Ensure Zammad services are running and set to start on boot.
-  systemd:
+  ansible.builtin.systemd:
     name: zammad
     state: "{{ zammad_service_state }}"
     enabled: "{{ zammad_service_enabled }}"
 
 - name: Zammad | Disable default nginx configuration for zammad
-  file:
+  ansible.builtin.file:
     path: "/etc/nginx/sites-enabled/zammad.conf"
     state: "absent"
-  when: "zammad_nginx_disable_default_web_server == true"
+  when: zammad_nginx_disable_default_web_server
   notify: reload nginx
 
 - name: Zammad | Include redis role
-  include_role:
+  ansible.builtin.include_role:
     name: geerlingguy.redis
-  when: "zammad_add_redis == true"
+  when: zammad_add_redis
 
 - name: Zammad | Set redis environment var
-  shell: "zammad config:set REDIS_URL=redis://127.0.0.1:6379"
-  when: "zammad_add_redis == true"
+  ansible.builtin.command: "zammad config:set REDIS_URL=redis://127.0.0.1:6379"
+  register: output
+  changed_when: output.rc != 0
+  when: zammad_add_redis

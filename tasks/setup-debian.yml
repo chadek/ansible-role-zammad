@@ -13,6 +13,7 @@
   ansible.builtin.file:
     state: directory
     dest: /usr/share/keyrings/
+    mode: "0755"
 
 - name: Zammad | Ensure zammad apt key is present
   ansible.builtin.get_url:
@@ -23,7 +24,9 @@
 
 - name: Zammad | Ensure Zammad apt repository is present
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/pkgr-zammad.asc] https://dl.packager.io/srv/deb/zammad/zammad/stable/{{ ansible_distribution | lower }} {{ ansible_distribution_major_version }} main"
+    repo: >
+      "deb [signed-by=/usr/share/keyrings/pkgr-zammad.asc] https://dl.packager.io/srv/deb/zammad/zammad/stable/{{ ansible_distribution | lower }}
+      {{ ansible_distribution_major_version }} main"
     update_cache: true
     state: present
 
