@@ -1,7 +1,7 @@
 ---
-- name: Zammad | Include "setup-debian.yml"
+- name: Zammad | Include setup-debian.yml
   ansible.builtin.include_tasks:
-    name: "setup-debian.yml"
+    file: "setup-debian.yml"
   when: ansible_os_family == 'Debian'
 
 - name: Zammad | Install Zammad
