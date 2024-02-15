@@ -1,38 +1,41 @@
-Role Name
-=========
+# Ansible Role: Zammad
 
-A brief description of the role goes here.
+This Ansible role automates the installation and configuration of Zammad, a web-based ticketing system and customer support platform.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Ansible installed on the control node.
+- Target system must meet the minimum system requirements for Zammad.
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-Dependencies
-------------
+- `zammad_package_state`: Sets the state of the Zammad package. Default is `present`.
+- `zammad_apt_priority`: Set zammad repo priority for apt. Default is `100` (bellow apt default priority which is 500).
+- `zammad_nginx_disable_default_web_server`: Disable the default nginx configuration shipped by the zammad package. Default is `true`.
+- `zammad_add_redis`: Add redis or not to configuration. Default is `false`.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## Dependencies
 
-Example Playbook
-----------------
+None.
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+## Example Playbook
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+- hosts: servers
+  roles:
+    - role: chadek.zammad
+```
 
-License
--------
+## License
 
-BSD
+This role is licensed under the MIT License.
 
-Author Information
-------------------
+## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created by [Your Name Her.
+
+## Feedback and Contributions
+
+Please feel free to open an issue or submit a pull request on [GitHub](https://github.com/chadek/ansible-role-zammad) if you have any feedback or would like to contribute.
